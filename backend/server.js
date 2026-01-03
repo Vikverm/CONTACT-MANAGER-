@@ -8,6 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Backend API is running");
+});
+
+// Existing API routes
 app.use("/api/contacts", require("./routes/contactRoutes"));
 
 mongoose.connect(process.env.MONGO_URI)
