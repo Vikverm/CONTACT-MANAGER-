@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:5000/api/contacts";
+const API_URL = "https://contact-manager-jn7a.onrender.com/api/contacts";
 
 export default function ContactList({ refresh }) {
 

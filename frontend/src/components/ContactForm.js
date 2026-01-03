@@ -1,10 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:5000/api/contacts";
+const API_URL = "https://contact-manager-jn7a.onrender.com/api/contacts";
 
 export default function ContactForm({ onContactAdded }) {
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -53,7 +52,9 @@ export default function ContactForm({ onContactAdded }) {
       setSuccess("Contact added successfully!");
       setForm({ name: "", email: "", phone: "", message: "" });
       setErrors({});
-      onContactAdded();
+
+      onContactAdded?.();   // ✅ ONLY CHANGE (safe call)
+
     } catch (err) {
       console.error(err);
     } finally {
