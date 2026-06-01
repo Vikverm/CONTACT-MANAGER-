@@ -10,11 +10,11 @@ Built using **MongoDB, Express.js, React.js, and Node.js (MERN Stack)** to demon
 
 ### 🌐 Frontend (Netlify)
 
-👉 https://contact-manager0.netlify.app/
+👉 https://contactmanagerpro.netlify.app/
 
 ### ⚙️ Backend API (Render)
 
-👉 https://contact-manager-jn7a.onrender.com
+👉 https://contact-manager-jn7a.onrender.com/
 
 ---
 
@@ -231,7 +231,7 @@ contact-manager/
 ## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/contact-manager.git
+git clone https://github.com/Vikverm/CONTACT-MANAGER-.git
 cd contact-manager
 ```
 
