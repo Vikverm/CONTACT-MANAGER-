@@ -1,41 +1,58 @@
-const express = require("express");
-const router = express.Router();
-const Contact = require("../models/Contact");
+const express =
+  require("express");
 
-// TEST ROUTE (VERY IMPORTANT)
-router.get("/test", (req, res) => {
-  res.send("Contacts route working");
-});
+const router =
+  express.Router();
 
-// GET all contacts
-router.get("/", async (req, res) => {
-  try {
-    const contacts = await Contact.find();
-    res.json(contacts);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+const protect =
+  require("../middleware/authMiddleware");
 
-// POST new contact
-router.post("/", async (req, res) => {
-  const contact = new Contact(req.body);
-  try {
-    const savedContact = await contact.save();
-    res.status(201).json(savedContact);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+const {
+  addContact,
+  getContacts,
+  deleteContact,
+  toggleFavorite,
+  updateContact,
+  getStats,
+} = require(
+  "../controllers/contactController"
+);
 
-// DELETE contact
-router.delete("/:id", async (req, res) => {
-  try {
-    await Contact.findByIdAndDelete(req.params.id);
-    res.json({ message: "Contact deleted" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+router.put(
+  "/favorite/:id",
+  protect,
+  toggleFavorite
+);
 
-module.exports = router;
+router.get(
+  "/stats",
+  protect,
+  getStats
+);
+
+router.put(
+  "/:id",
+  protect,
+  updateContact
+);
+
+router.post(
+  "/",
+  protect,
+  addContact
+);
+
+router.get(
+  "/",
+  protect,
+  getContacts
+);
+
+router.delete(
+  "/:id",
+  protect,
+  deleteContact
+);
+
+module.exports =
+  router;
