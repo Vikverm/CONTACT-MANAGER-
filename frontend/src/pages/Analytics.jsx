@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useState,
 } from "react";
@@ -34,7 +35,7 @@ const Analytics = () => {
     );
 
   const fetchContacts =
-    async () => {
+    useCallback(async () => {
       try {
 
         const res =
@@ -63,11 +64,11 @@ const Analytics = () => {
           "Failed to load analytics"
         );
       }
-    };
+    }, [token]);
 
   useEffect(() => {
     fetchContacts();
-  }, []);
+  }, [fetchContacts]);
 
   // Stats
   const totalContacts =

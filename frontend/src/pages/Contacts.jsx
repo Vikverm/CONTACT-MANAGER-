@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
 import API from "../services/api";
 import { Star, Trash2 } from "lucide-react";
@@ -20,7 +20,7 @@ const Contacts = () => {
   const token = localStorage.getItem("token");
 
   // Fetch contacts
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     try {
       const res = await API.get("/contacts", {
         headers: {
@@ -33,11 +33,11 @@ const Contacts = () => {
       console.log(error);
       toast.error("Failed to load contacts");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchContacts();
-  }, []);
+  }, [fetchContacts]);
 
   // Input change
   const handleChange = (e) => {
