@@ -56,7 +56,7 @@ const Favorites = () => {
         );
 
       } catch (
-        error
+      error
       ) {
         console.log(
           error
@@ -66,6 +66,7 @@ const Favorites = () => {
 
   useEffect(() => {
     fetchFavorites();
+    // eslint-disable-next-line
   }, []);
 
   // Remove Favorite
@@ -78,18 +79,18 @@ const Favorites = () => {
           {},
           {
             headers:
-              {
-                Authorization:
-                  "Bearer " +
-                  token,
-              },
+            {
+              Authorization:
+                "Bearer " +
+                token,
+            },
           }
         );
 
         fetchFavorites();
 
       } catch (
-        error
+      error
       ) {
         console.log(
           error
@@ -117,18 +118,18 @@ const Favorites = () => {
           `/contacts/${id}`,
           {
             headers:
-              {
-                Authorization:
-                  "Bearer " +
-                  token,
-              },
+            {
+              Authorization:
+                "Bearer " +
+                token,
+            },
           }
         );
 
         fetchFavorites();
 
       } catch (
-        error
+      error
       ) {
         console.log(
           error
@@ -183,7 +184,7 @@ const Favorites = () => {
           </h2>
 
           {filteredContacts.length ===
-          0 ? (
+            0 ? (
 
             <div className="text-center py-20">
 

@@ -37,6 +37,7 @@ const Contacts = () => {
 
   useEffect(() => {
     fetchContacts();
+    // eslint-disable-next-line
   }, []);
 
   // Input change

@@ -1,318 +1,319 @@
 import React, {
-  useEffect,
-  useState,
+    useEffect,
+    useState,
 } from "react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import API from "../services/api";
 
 import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Legend,
+    PieChart,
+    Pie,
+    Cell,
+    Tooltip,
+    ResponsiveContainer,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Legend,
 } from "recharts";
 
 import toast from "react-hot-toast";
 
 const Analytics = () => {
 
-  const [contacts,
-    setContacts] =
-    useState([]);
+    const [contacts,
+        setContacts] =
+        useState([]);
 
-  const token =
-    localStorage.getItem(
-      "token"
-    );
+    const token =
+        localStorage.getItem(
+            "token"
+        );
 
-  const fetchContacts =
-    async () => {
-      try {
+    const fetchContacts =
+        async () => {
+            try {
 
-        const res =
-          await API.get(
-            "/contacts",
-            {
-              headers: {
-                Authorization:
-                  `Bearer ${token}`,
-              },
+                const res =
+                    await API.get(
+                        "/contacts",
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                setContacts(
+                    res.data
+                );
+
+            } catch (
+            error
+            ) {
+                console.log(
+                    error
+                );
+
+                toast.error(
+                    "Failed to load analytics"
+                );
             }
-          );
+        };
 
-        setContacts(
-          res.data
-        );
+    useEffect(() => {
+        fetchContacts();
+        // eslint-disable-next-line
+    }, []);
 
-      } catch (
-        error
-      ) {
-        console.log(
-          error
-        );
+    // Stats
+    const totalContacts =
+        contacts.length;
 
-        toast.error(
-          "Failed to load analytics"
-        );
-      }
-    };
+    const favoriteContacts =
+        contacts.filter(
+            (
+                contact
+            ) =>
+                contact.favorite
+        ).length;
 
-  useEffect(() => {
-    fetchContacts();
-  }, []);
+    const businessContacts =
+        contacts.filter(
+            (
+                contact
+            ) =>
+                contact.category ===
+                "Business"
+        ).length;
 
-  // Stats
-  const totalContacts =
-    contacts.length;
+    const familyContacts =
+        contacts.filter(
+            (
+                contact
+            ) =>
+                contact.category ===
+                "Family"
+        ).length;
 
-  const favoriteContacts =
-    contacts.filter(
-      (
-        contact
-      ) =>
-        contact.favorite
-    ).length;
+    const friendsContacts =
+        contacts.filter(
+            (
+                contact
+            ) =>
+                contact.category ===
+                "Friends"
+        ).length;
 
-  const businessContacts =
-    contacts.filter(
-      (
-        contact
-      ) =>
-        contact.category ===
-        "Business"
-    ).length;
+    // Pie chart
+    const pieData = [
+        {
+            name:
+                "Friends",
+            value:
+                friendsContacts,
+        },
+        {
+            name:
+                "Family",
+            value:
+                familyContacts,
+        },
+        {
+            name:
+                "Business",
+            value:
+                businessContacts,
+        },
+    ];
 
-  const familyContacts =
-    contacts.filter(
-      (
-        contact
-      ) =>
-        contact.category ===
-        "Family"
-    ).length;
+    // Bar chart
+    const barData = [
+        {
+            name:
+                "Contacts",
+            Total:
+                totalContacts,
+            Favorites:
+                favoriteContacts,
+        },
+    ];
 
-  const friendsContacts =
-    contacts.filter(
-      (
-        contact
-      ) =>
-        contact.category ===
-        "Friends"
-    ).length;
+    const COLORS = [
+        "#2563eb",
+        "#22c55e",
+        "#f59e0b",
+    ];
 
-  // Pie chart
-  const pieData = [
-    {
-      name:
-        "Friends",
-      value:
-        friendsContacts,
-    },
-    {
-      name:
-        "Family",
-      value:
-        familyContacts,
-    },
-    {
-      name:
-        "Business",
-      value:
-        businessContacts,
-    },
-  ];
+    return (
+        <DashboardLayout>
 
-  // Bar chart
-  const barData = [
-    {
-      name:
-        "Contacts",
-      Total:
-        totalContacts,
-      Favorites:
-        favoriteContacts,
-    },
-  ];
+            <div className="space-y-8">
 
-  const COLORS = [
-    "#2563eb",
-    "#22c55e",
-    "#f59e0b",
-  ];
+                <h1 className="text-5xl font-bold dark:text-white">
+                    Analytics 📊
+                </h1>
 
-  return (
-    <DashboardLayout>
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
 
-      <div className="space-y-8">
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
+                        <p className="text-gray-500 dark:text-gray-300">
+                            Total Contacts
+                        </p>
 
-        <h1 className="text-5xl font-bold dark:text-white">
-          Analytics 📊
-        </h1>
+                        <h2 className="text-5xl font-bold dark:text-white mt-3">
+                            {
+                                totalContacts
+                            }
+                        </h2>
+                    </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
+                        <p className="text-gray-500 dark:text-gray-300">
+                            Favorites
+                        </p>
 
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
-            <p className="text-gray-500 dark:text-gray-300">
-              Total Contacts
-            </p>
+                        <h2 className="text-5xl font-bold dark:text-white mt-3">
+                            {
+                                favoriteContacts
+                            }
+                        </h2>
+                    </div>
 
-            <h2 className="text-5xl font-bold dark:text-white mt-3">
-              {
-                totalContacts
-              }
-            </h2>
-          </div>
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
+                        <p className="text-gray-500 dark:text-gray-300">
+                            Business
+                        </p>
 
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
-            <p className="text-gray-500 dark:text-gray-300">
-              Favorites
-            </p>
+                        <h2 className="text-5xl font-bold dark:text-white mt-3">
+                            {
+                                businessContacts
+                            }
+                        </h2>
+                    </div>
 
-            <h2 className="text-5xl font-bold dark:text-white mt-3">
-              {
-                favoriteContacts
-              }
-            </h2>
-          </div>
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
+                        <p className="text-gray-500 dark:text-gray-300">
+                            Family
+                        </p>
 
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
-            <p className="text-gray-500 dark:text-gray-300">
-              Business
-            </p>
+                        <h2 className="text-5xl font-bold dark:text-white mt-3">
+                            {
+                                familyContacts
+                            }
+                        </h2>
+                    </div>
 
-            <h2 className="text-5xl font-bold dark:text-white mt-3">
-              {
-                businessContacts
-              }
-            </h2>
-          </div>
+                </div>
 
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-[30px] shadow-sm">
-            <p className="text-gray-500 dark:text-gray-300">
-              Family
-            </p>
+                {/* Charts */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-            <h2 className="text-5xl font-bold dark:text-white mt-3">
-              {
-                familyContacts
-              }
-            </h2>
-          </div>
+                    {/* Pie */}
+                    <div className="bg-white dark:bg-slate-800 rounded-[30px] p-6 shadow-sm">
 
-        </div>
+                        <h2 className="text-2xl font-bold mb-5 dark:text-white">
+                            Contact Categories
+                        </h2>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <ResponsiveContainer
+                            width="100%"
+                            height={350}
+                        >
+                            <PieChart>
 
-          {/* Pie */}
-          <div className="bg-white dark:bg-slate-800 rounded-[30px] p-6 shadow-sm">
+                                <Pie
+                                    data={
+                                        pieData
+                                    }
+                                    dataKey="value"
+                                    outerRadius={
+                                        120
+                                    }
+                                    label
+                                >
 
-            <h2 className="text-2xl font-bold mb-5 dark:text-white">
-              Contact Categories
-            </h2>
+                                    {pieData.map(
+                                        (
+                                            entry,
+                                            index
+                                        ) => (
+                                            <Cell
+                                                key={
+                                                    index
+                                                }
+                                                fill={
+                                                    COLORS[
+                                                    index
+                                                    ]
+                                                }
+                                            />
+                                        )
+                                    )}
 
-            <ResponsiveContainer
-              width="100%"
-              height={350}
-            >
-              <PieChart>
+                                </Pie>
 
-                <Pie
-                  data={
-                    pieData
-                  }
-                  dataKey="value"
-                  outerRadius={
-                    120
-                  }
-                  label
-                >
+                                <Tooltip />
 
-                  {pieData.map(
-                    (
-                      entry,
-                      index
-                    ) => (
-                      <Cell
-                        key={
-                          index
-                        }
-                        fill={
-                          COLORS[
-                            index
-                          ]
-                        }
-                      />
-                    )
-                  )}
+                            </PieChart>
+                        </ResponsiveContainer>
 
-                </Pie>
+                    </div>
 
-                <Tooltip />
+                    {/* Bar */}
+                    <div className="bg-white dark:bg-slate-800 rounded-[30px] p-6 shadow-sm">
 
-              </PieChart>
-            </ResponsiveContainer>
+                        <h2 className="text-2xl font-bold mb-5 dark:text-white">
+                            Contacts Overview
+                        </h2>
 
-          </div>
+                        <ResponsiveContainer
+                            width="100%"
+                            height={350}
+                        >
 
-          {/* Bar */}
-          <div className="bg-white dark:bg-slate-800 rounded-[30px] p-6 shadow-sm">
+                            <BarChart
+                                data={
+                                    barData
+                                }
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
 
-            <h2 className="text-2xl font-bold mb-5 dark:text-white">
-              Contacts Overview
-            </h2>
+                                <XAxis dataKey="name" />
 
-            <ResponsiveContainer
-              width="100%"
-              height={350}
-            >
+                                <YAxis />
 
-              <BarChart
-                data={
-                  barData
-                }
-              >
-                <CartesianGrid strokeDasharray="3 3" />
+                                <Tooltip />
 
-                <XAxis dataKey="name" />
+                                <Legend />
 
-                <YAxis />
+                                <Bar
+                                    dataKey="Total"
+                                    fill="#2563eb"
+                                />
 
-                <Tooltip />
+                                <Bar
+                                    dataKey="Favorites"
+                                    fill="#22c55e"
+                                />
 
-                <Legend />
+                            </BarChart>
 
-                <Bar
-                  dataKey="Total"
-                  fill="#2563eb"
-                />
+                        </ResponsiveContainer>
 
-                <Bar
-                  dataKey="Favorites"
-                  fill="#22c55e"
-                />
+                    </div>
 
-              </BarChart>
+                </div>
 
-            </ResponsiveContainer>
+            </div>
 
-          </div>
-
-        </div>
-
-      </div>
-
-    </DashboardLayout>
-  );
+        </DashboardLayout>
+    );
 };
 
 export default Analytics;
