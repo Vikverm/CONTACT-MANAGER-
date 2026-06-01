@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState,
 } from "react";
@@ -28,7 +29,7 @@ const Favorites = () => {
 
   // Fetch Favorites
   const fetchFavorites =
-    async () => {
+    useCallback(async () => {
       try {
 
         const res =
@@ -62,11 +63,11 @@ const Favorites = () => {
           error
         );
       }
-    };
+    }, [token]);
 
   useEffect(() => {
     fetchFavorites();
-  }, []);
+  }, [fetchFavorites]);
 
   // Remove Favorite
   const toggleFavorite =
