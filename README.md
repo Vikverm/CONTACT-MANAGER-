@@ -8,9 +8,9 @@ Built using **MongoDB, Express.js, React.js, and Node.js (MERN Stack)** to demon
 
 ## 🚀 Live Demo
 
-### 🌐 Frontend (Netlify)
+### 🌐 Frontend (Vercel)
 
-👉 https://contactmanagerpro.netlify.app/
+👉 https://contact-manager-sigma-black.vercel.app/login
 
 ### ⚙️ Backend API (Render)
 
